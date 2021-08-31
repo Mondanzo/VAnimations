@@ -34,3 +34,8 @@ jobs:
         with:
       # Directory where documentation will be placed
           docs-dir: "animations_docs"
+          
+      - name: Deploy github pages.
+        uses: crazy-max/ghaction-github-pages@v2.5.0
+        with:
+          build_dir: animations_docs
