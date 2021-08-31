@@ -39,7 +39,7 @@ fn main(){
 
 To get started just import the library and create a new AnimationManager using `animations.new_animation_manager(true)`.
 
-The documentation can be accessed at [https://mondanzo.github.io/vanimations/](https://mondanzo.github.io/vanimations/). Generated using vdoc.
+The documentation can be accessed at [https://mondanzo.github.io/VAnimations/](https://mondanzo.github.io/VAnimations/). Generated using vdoc.
 
 Please note that this project is still WIP.
 
