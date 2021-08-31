@@ -1,14 +1,16 @@
 module animations
-
-///
-/// All Functions are taken from
-/// easings.net by Andrey Sitnik and Ivan Solovev
-///
+// # Animations
+// a module to animate individual variables.
+//
+// All Functions are taken from
+// easings.net by Andrey Sitnik and Ivan Solovev
+//
 
 import math
 import time
 import rand
 
+// a Task represententing a variable being animated.
 struct AnimationTask {
 mut:
 	value &f32
@@ -22,6 +24,8 @@ mut:
 	loop bool
 }
 
+// The Animation manager, holding all the AnimationTasks.
+// Don't directly create one but instead use new_animation_manager.
 struct AnimationManager {
 mut:
 	tasks map[u64]AnimationTask
@@ -30,7 +34,9 @@ mut:
 pub mut:
 	millisecond_counter u64
 }
-
+// new_animation_manager
+// create a new Animation Manager.
+// clean_finished_tasks bool - Determine if the AnimationTasks should be cleared once they complete.
 pub fn new_animation_manager(clean_finished_tasks bool) &AnimationManager {
 	return &AnimationManager {
 		tasks: map[u64]AnimationTask{}
@@ -39,10 +45,22 @@ pub fn new_animation_manager(clean_finished_tasks bool) &AnimationManager {
 	}
 }
 
+// set_clean
+// set if the manager should remove finished tasks.
 pub fn (mut manager AnimationManager) set_clean(clean bool){
    manager.clean = clean
 }
 
+// add
+// Add a new task to the AnimationManager.
+// v - a pointer to the value to animate.
+// f - the value to start from.
+// t - the value to animate to.
+// d - the duration to take in milliseconds.
+// m - the method to use. See the easing animations in this module.
+// loop - should the animation be looped between from and to value
+//
+// Returns the id of the created task.
 pub fn (mut manager AnimationManager) add(mut v &f32, f f32, t f32, d i64, m fn(f64) f64, loop bool) u64 {
    task_id := rand.u64()
 	unsafe {
@@ -60,10 +78,26 @@ pub fn (mut manager AnimationManager) add(mut v &f32, f f32, t f32, d i64, m fn(
 	return task_id
 }
 
+// cancel
+// Cancels a task. This will not finish the task. It will just cancel it mid-time.
+// task_id - the id of the task
+//
+// Returns true if deleted successfully. False otherwise
+pub fn (mut manager AnimationManager) cancel(task_id u64) bool {
+   if task_id in manager.tasks {
+      manager.tasks.delete(task_id)
+      return true
+   }
+   return false
+}
+
+// loop
+// The loop of the AnimationManager.
+// run in a separated thread using `go manager.loop()`
 pub fn (mut manager AnimationManager) loop() {
 	for {
 		for _, mut task in manager.tasks {
-         if (time.ticks() - task.start_time) >= task.duration {
+         if task.finished || (time.ticks() - task.start_time) >= task.duration {
 				if task.loop {
 					t := task.to
 					task.to = task.from
@@ -88,7 +122,6 @@ pub fn (mut manager AnimationManager) loop() {
 }
 
 // Linear
-
 pub fn linear(x f64) f64 {
 	return x
 }
@@ -266,7 +299,7 @@ pub fn ease_in_out_expo(x f64) f64 {
 	}
 }
 
-// back
+// Back
 pub fn ease_in_back(x f64) f64 {
 	c1 := 1.70158
 	c3 := c1 + 1
@@ -291,7 +324,7 @@ pub fn ease_in_out_back(x f64) f64 {
 	}
 }
 
-// bounce
+// Bounce
 pub fn ease_in_bounce(x f64) f64 {
 	return 1 - ease_out_bounce(1 - x)
 }
