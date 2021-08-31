@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Setup V environment
-        uses: nocturlab/setup-vlang-action@v1.2.0
+        uses: nocturlab/setup-vlang-action@e1f78d352eab6bdb0e8c1a9fe841c6658d5a041e
 
       # Runs a single command using the runners shell
       - name: Create documentation for V modules
