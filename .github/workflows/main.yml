@@ -39,3 +39,5 @@ jobs:
         uses: crazy-max/ghaction-github-pages@v2.5.0
         with:
           build_dir: animations_docs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
