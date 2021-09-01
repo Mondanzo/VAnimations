@@ -38,7 +38,6 @@ pub fn new_animation_manager(clean_finished_tasks bool) &AnimationManager {
 	return &AnimationManager {
 		tasks: map[u64]AnimationTask{}
       clean: clean_finished_tasks
-		stopwatch: time.StopWatch {}
 	}
 }
 
