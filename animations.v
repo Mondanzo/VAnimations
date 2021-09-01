@@ -30,9 +30,6 @@ struct AnimationManager {
 mut:
 	tasks map[u64]AnimationTask
    clean bool = true
-	stopwatch time.StopWatch
-pub mut:
-	millisecond_counter u64
 }
 // new_animation_manager
 // create a new Animation Manager.
