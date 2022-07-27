@@ -26,7 +26,7 @@ mut:
 
 // The Animation manager, holding all the AnimationTasks.
 // Don't directly create one but instead use new_animation_manager.
-struct AnimationManager {
+pub struct AnimationManager {
 mut:
 	tasks map[u64]AnimationTask
    clean bool = true
